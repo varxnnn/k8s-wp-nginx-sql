@@ -1,0 +1,47 @@
+############ Build Stage ############
+# This stage compiles and builds OpenResty with Lua support
+# Installs dependencies, makes OpenRestry
+
+FROM alpine:latest as builder
+
+RUN apk add --no-cache build-base pcre-dev openssl-dev zlib-dev git postgresql-dev curl tar make perl
+
+WORKDIR /opt
+
+# OpenResty Repository
+RUN curl -LO https://openresty.org/download/openresty-1.21.4.1.tar.gz 
+RUN tar -zxf openresty-1.21.4.1.tar.gz
+RUN cd openresty-1.21.4.1 && \
+    ./configure --prefix=/opt/openresty \
+                --with-pcre-jit \
+                --with-ipv6 \
+                --without-http_redis2_module \
+                --with-http_iconv_module \
+                --with-http_postgres_module \
+                -j8 && \
+    make && \
+    make install                          
+
+
+############ Runtime Stage ############
+# Fetches OpenResty build from build stage
+
+FROM alpine:latest
+
+## Installing dependencies needed for OpenResty and NGINX
+RUN apk add --no-cache pcre openssl zlib git postgresql perl
+
+# Copy built OpenResty instance from build stage
+COPY --from=builder /opt/openresty /opt/openresty
+
+# Including binaries in Path env variable
+RUN export PATH=/opt/openresty/bin:/opt/openresty/nginx/sbin:$PATH
+RUN mkdir -p /var/log/nginx
+RUN touch /var/log/nginx/access.log
+RUN touch /var/log/nginx/error.log
+
+# COPY nginx.conf /opt/openresty/nginx/conf/nginx.conf
+
+EXPOSE 80 443
+
+CMD ["/opt/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
