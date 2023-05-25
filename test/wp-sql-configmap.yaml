@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wp-sql-configmap  
-data:
-  database_host: mysql-service

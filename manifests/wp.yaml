@@ -1,4 +1,13 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wp-sql-configmap  
+data:
+  database_host: mysql-service
+
+---
+
+apiVersion: v1
 kind: Service
 metadata:
   name: wp-service
@@ -32,7 +41,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress-deployment
+  name: wp-deployment
   labels:
     app: wordpress
 spec:
