@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wp-sql-configmap  
+  name: wp-sql-configmap
+  namespace: my-sample-namespace
 data:
   database_host: mysql-service
 
@@ -11,6 +12,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wp-service
+  namespace: my-sample-namespace
   labels:
     app: wordpress
 spec:
@@ -34,7 +36,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 20Gi
+      storage: 5Gi
 
 ---
 
@@ -42,6 +44,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wp-deployment
+  namespace: my-sample-namespace
   labels:
     app: wordpress
 spec:
