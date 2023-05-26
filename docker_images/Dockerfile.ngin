@@ -8,16 +8,19 @@ RUN apk add --no-cache build-base pcre-dev openssl-dev zlib-dev git postgresql-d
 
 WORKDIR /opt
 
-# OpenResty Repository
+# OpenResty Tarball
 RUN curl -LO https://openresty.org/download/openresty-1.21.4.1.tar.gz 
 RUN tar -zxf openresty-1.21.4.1.tar.gz
+
+# Building OpenResty from source
 RUN cd openresty-1.21.4.1 && \
     ./configure --prefix=/opt/openresty \
+                --with-http_stub_status_module \    
                 --with-pcre-jit \
                 --with-ipv6 \
                 --without-http_redis2_module \
                 --with-http_iconv_module \
-                --with-http_postgres_module \
+                --with-http_postgres_module \                    
                 -j8 && \
     make && \
     make install                          
@@ -44,4 +47,4 @@ RUN touch /var/log/nginx/error.log
 
 EXPOSE 80 443
 
-CMD ["/opt/openresty/nginx/sbin/nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/opt/openresty/nginx/sbin/nginx", "-g", "daemon off;"]

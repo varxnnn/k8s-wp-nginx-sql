@@ -25,6 +25,10 @@ data:
         server {
             listen 80;
             
+            location /status {
+              stub_status;
+            }
+
             location / {
                 proxy_pass http://wp-backend;
                 proxy_set_header Host $host;
@@ -54,6 +58,23 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-exporter-service
+  namespace: my-sample-namespace
+  labels:
+    app: nginx
+spec:                  # external service
+  ports:
+  - protocol: TCP
+    port: 9113
+    targetPort: 9113
+  selector:
+    app: nginx
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -68,6 +89,10 @@ spec:
       app: nginx
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "9113"
       labels:
         app: nginx
     spec:
@@ -89,3 +114,9 @@ spec:
         - mountPath: /opt/openresty/nginx/conf
           name: nginxconf
           readOnly: true
+      - name: nginx-exporter
+        image: 'nginx/nginx-prometheus-exporter:0.11'
+        args:
+          - '-nginx.scrape-uri=http://localhost/status'
+        ports:
+          - containerPort: 9113
