@@ -7,7 +7,7 @@ This assignment deploys a production-grade WordPress application using Kubernete
 **Note:** The WordPress Application gets deployed in `my-sample-namespace` namespace, and Prometheus and Grafana get deployed in `monitoring` namespace.
 
 ```bash
-helm install wordpress wp-release/ -n my-sample-namespace 
+helm install wordpress wp-assignment/ -n my-sample-namespace 
 helm install prometheus monitoring-release/prometheus -n monitoring 
 helm install grafana monitoring-release/grafana -n monitoring 
 ```
@@ -30,7 +30,7 @@ assets/
 
 docker-images/
     - Dockerfile.mysql
-    - Dockerfile.ngin
+    - Dockerfile.nginx
     - Dockerfile.wp
 
 monitoring-release/
@@ -39,7 +39,7 @@ monitoring-release/
     prometheus/
         <prometheus helm chart>
 
-wp-release/
+wp-assignment/
     <wordpress application helm chart>
 ```
 
@@ -48,7 +48,7 @@ Since our application is divided into 3 parts: WordPress, MySQL and NGINX, let u
 
 ### NGINX
 
-#### Dockerfile: `./docker-images/Dockerfile.ngin`.
+#### Dockerfile: `./docker-images/Dockerfile.nginx`.
 
 In the NGINX Dockerfile, we have a 2-stage Docker build. In the first stage, we build a custom OpenResty installation from the source code, installing only the modules we require. 
 
@@ -58,7 +58,7 @@ In the second stage, we copy our custom OpenResty installation from the build st
 
 This Docker image is built and pushed to [Docker Hub](https://hub.docker.com/repository/docker/varxn/k8s-nginx).
 
-#### Kubernetes manifest: `./wp-release/templates/nginx.yaml`.
+#### Kubernetes manifest: `./wp-assignment/templates/nginx.yaml`.
 
 For NGINX, we use the following Kubernetes components:
 1. Deployment
@@ -81,7 +81,7 @@ For NGINX, we use the following Kubernetes components:
 
 In the MySQL Dockerfile, we simply specify our base image.
 
-#### Kubernetes manifest: `./wp-release/templates/sql.yaml`.
+#### Kubernetes manifest: `./wp-assignment/templates/sql.yaml`.
   
 For MySQL, we use the following Kubernetes components:
 
@@ -114,7 +114,7 @@ For MySQL, we use the following Kubernetes components:
 
 In the WordPress Dockerfile, we simply specify our base image.
 
-### Kubernetes manifest: `./wp-release/templates/wp.yaml`
+### Kubernetes manifest: `./wp-assignment/templates/wp.yaml`
 
 For WordPress, we use the following Kubernetes components:
 

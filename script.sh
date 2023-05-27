@@ -1,6 +1,6 @@
 install() {
     echo "Starting WordPress Application + Monitoring"
-    helm install wordpress wp-release/ -n my-sample-namespace
+    helm install wordpress wp-assignment/ -n my-sample-namespace
     helm install prometheus monitoring-release/prometheus -n monitoring 
     helm install grafana monitoring-release/grafana -n monitoring 
 }
