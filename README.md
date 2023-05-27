@@ -63,7 +63,7 @@ This Docker image is built and pushed to [Docker Hub](https://hub.docker.com/rep
 For NGINX, we use the following Kubernetes components:
 1. Deployment
    
-   In our NGINX Deployment, we configure our ReplicaSet so that we have 3 pods running NGINX. We also add `annotations` to our pods so that Prometheus can scrape the pod.
+   In our NGINX Deployment, we configure our ReplicaSet so that we have 3 pods. We also add `annotations` to our pods so that Prometheus can scrape the pod.
    
    We have `nginx-exporter` as a sidecar container running in each NGINX pod. That means there are two containers running in each pod: nginx, nginx-exporter.
 
