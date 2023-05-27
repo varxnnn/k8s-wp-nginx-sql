@@ -79,7 +79,7 @@ For NGINX, we use the following Kubernetes components:
 ### MySQL
 #### Dockerfile: `./docker-images/Dockerfile.mysql`
 
-In the MySQL Dockerfile, we simply specify our base image.
+In the MySQL Dockerfile, we simply specify our base image. This Docker image is built and pushed to [Docker Hub](https://hub.docker.com/repository/docker/varxn/k8s-db).
 
 #### Kubernetes manifest: `./wp-assignment/templates/sql.yaml`.
   
@@ -112,7 +112,7 @@ For MySQL, we use the following Kubernetes components:
 ### WordPress
 #### Dockerfile: `./docker-images/Dockerfile.wp`
 
-In the WordPress Dockerfile, we simply specify our base image.
+In the WordPress Dockerfile, we simply specify our base image. This Docker image is built and pushed to [Docker Hub](https://hub.docker.com/repository/docker/varxn/k8s-wp).
 
 ### Kubernetes manifest: `./wp-assignment/templates/wp.yaml`
 
