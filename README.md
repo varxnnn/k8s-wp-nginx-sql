@@ -58,6 +58,7 @@ wp-release/
 Since our application is divided into 3 parts: WordPress, MySQL and NGINX, let us discuss each component individually to get a deeper understanding.
 
 ### NGINX
+
 #### Dockerfile: `./docker-images/Dockerfile.ngin`.
 
 In the NGINX Dockerfile, we have a 2-stage Docker build. In the first stage, we build a custom OpenResty installation from the source code, installing only the modules we require. 
