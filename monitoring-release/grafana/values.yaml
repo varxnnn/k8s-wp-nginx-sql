@@ -1,0 +1,17 @@
+grafana:
+  dashboards:
+    default:
+      cluster-metrics:
+        file: ./monitoring-release/grafana/dashboards/cluster-metrics.json
+      nginx-exporter:
+        file: ./monitoring-release/grafana/dashboards/nginx-exporter.json
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server
+        access: proxy
+        isDefault: true
