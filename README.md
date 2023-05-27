@@ -6,14 +6,9 @@ This assignment deploys a production-grade WordPress application using Kubernete
 
 **Note:** The WordPress Application gets deployed in `my-sample-namespace` namespace, and Prometheus and Grafana get deployed in `monitoring` namespace.
 
-### Install
 ```bash
 helm install wordpress wp-release/ -n my-sample-namespace 
-```
-```bash 
 helm install prometheus monitoring-release/prometheus -n monitoring 
-```
-```bash 
 helm install grafana monitoring-release/grafana -n monitoring 
 ```
 
@@ -21,18 +16,12 @@ helm install grafana monitoring-release/grafana -n monitoring
 
 ```bash
 helm uninstall wordpress -n my-sample-namespace 
-```
-```bash 
 helm uninstall prometheus -n monitoring 
-```
-```bash 
 helm uninstall grafana -n monitoring 
 ```
 ### Alternatively
 ```bash
 ./script.sh install
-```
-```bash
 ./script.sh uninstall     
 ```
 ## File Structure:
